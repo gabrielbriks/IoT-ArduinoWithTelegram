@@ -59,7 +59,15 @@ const Schema = {
     *location
 > Esses serão os eventos que utilizaremos por hora, existem muitos outros como você pode conferir na documentação, o link esta abaixo.
 
->> fonte: Node.js Telegram Bot API — Usage — Events
+> fonte: Node.js Telegram Bot API — Usage — Events
 
 ## OBS ##
     > A função "on" sempre é utilizada para ouvir um evento, por isso o nome da função ja é onText.
+
+# Hospedando App no Heroku
+    > Primeiro devemos criar um File com o seguinte nome: "Profile", e dentro dele adicionarmos o seguinte codigo:
+        > web: node index.js
+
+    > Por que o Heroku? 
+    >Porque ele além de possuir um plano free tem um deploy muito fácil e rápido que fica ainda mais fácil quando você está utilizando Javascript. Você só precisa criar um arquivo chamado Profile na pasta do seu projeto e fazer o deploy.
+
