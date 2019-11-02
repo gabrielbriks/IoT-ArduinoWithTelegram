@@ -30,7 +30,7 @@ bot.onText( /\/echo (.*)/, function( msg, match ){
 });
 
 /*Envie a mensagem contida em "resp" quando for utilizado o comand '/start'*/ 
-bot.onText( /\/GRobot ('Iniciar!')/, function(msg){
+bot.onText( /\/GRobot (Iniciar!)/, function(msg){
   
   var fromId = msg.chat.id;
   var resp = "Opa, estou Ligado!";
