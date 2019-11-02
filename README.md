@@ -72,15 +72,14 @@ const Schema = {
     >Porque ele além de possuir um plano free tem um deploy muito fácil e rápido que fica ainda mais fácil quando você está utilizando Javascript. Você só precisa criar um arquivo chamado Profile na pasta do seu projeto e fazer o deploy.
 
 # Exemplo Básico do uso do telegram com Heroku #
->>
-    //instanciando a APIs 
+    >>    //instanciando a APIs 
     const TelegramBot = require('node-telegram-bot-api');
     const express = require('express');
     //End instanciando APIs
     var appExp = express();
-    /*Definindo uma porta padrao para utilizar caso essa porta
-    * estabelecida pelo servidor ou maquina onde se encontra em funcionamento
-    */
+    //Definindo uma porta padrao para utilizar caso essa porta
+    //estabelecida pelo servidor ou maquina onde se encontra em funcionamento
+    
     const port = process.env.PORT || 3000;
 
     //token Telegram que você recebe do @BotFather 
@@ -92,8 +91,8 @@ const Schema = {
     //Traga todas as informações da msg enviada a mim, e print in console
     bot.on('message',(msg) => console.log('msg:', msg));
 
-    /*Leia tudo que esta escrito depois do comand 'echo' e envia a mesma coisa 
-    * para o nosso usuario */
+    //Leia tudo que esta escrito depois do comand 'echo' e envia a mesma coisa 
+    // para o nosso usuario 
     bot.onText( /\/echo (.*)/, function( msg, match ){
     
     var fromId = msg.chat.id;
