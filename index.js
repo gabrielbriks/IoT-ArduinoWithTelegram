@@ -5,6 +5,9 @@ const express = require('express');
 
 //End instanciando APIs
 var appExp = express();
+/*Definindo uma porta padrao para utilizar caso essa porta
+* estabelecida pelo servidor ou maquina onde se encontra em funcionamento
+*/
 const port = process.env.PORT || 3000;
 
 //token Telegram que você recebe do @BotFather 
@@ -27,7 +30,7 @@ bot.onText( /\/echo (.*)/, function( msg, match ){
 });
 
 /*Envie a mensagem contida em "resp" quando for utilizado o comand '/start'*/ 
-bot.onText( /\/start/, function(msg){
+bot.onText( /\/start ('GRobot ligar!')/, function(msg){
   
   var fromId = msg.chat.id;
   var resp = "Opa, estou Ligado!";
@@ -35,13 +38,15 @@ bot.onText( /\/start/, function(msg){
   
 });
 
+//adicionado saida HTML para a aplicação
 appExp.get('/', function(req, res) {
   res.send('<br><i>Server ON!</i>');
 });
 
+
 appExp.listen(port, () => {
   console.log(`Serve ON in port: ${port}!`);
-})
+});
 
 /* ?? TRATAMENTOS DE ERROS ??  */
 
