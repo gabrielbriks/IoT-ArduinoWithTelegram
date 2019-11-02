@@ -1,5 +1,11 @@
-//instanciando a API 
+//instanciando a APIs 
+
 const TelegramBot = require('node-telegram-bot-api');
+const express = require('express');
+
+//End instanciando APIs
+var appExp = express();
+const port = process.env.PORT || 3000;
 
 //token Telegram que você recebe do @BotFather 
 const token = '899326021:AAEIY-qEA_ueqPUAHwNg1GBrbvv23m3TPI4';
@@ -25,9 +31,17 @@ bot.onText( /\/start/, function(msg){
   
   var fromId = msg.chat.id;
   var resp = "Opa, estou Ligado!";
-  bot.sendMessage(fromId,resp);
+  bot.sendMessage(fromId, resp);
   
 });
+
+appExp.get('/', function(req, res) {
+  res.send('<br><i>Server ON!</i>');
+});
+
+appExp.listen(port, () => {
+  console.log(`Serve ON in port: ${port}!`);
+})
 
 /* ?? TRATAMENTOS DE ERROS ??  */
 
