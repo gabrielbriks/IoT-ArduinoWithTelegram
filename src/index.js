@@ -10,7 +10,7 @@ const express = require('express');
 
 //#region Variaveis Globais
 
-const appExp = express();
+const app = express();
 /*Definindo uma porta padrao para utilizar caso essa porta
 * estabelecida pelo servidor ou maquina onde se encontra em funcionamento
 */
@@ -23,6 +23,8 @@ const token = '899326021:AAEIY-qEA_ueqPUAHwNg1GBrbvv23m3TPI4';
 const bot = new TelegramBot(token, {polling :  true });
 
 //#endregion
+
+app.use(require('./routes'));
 
   //Traga todas as informações da msg enviada a mim, e print in console
 bot.on('message',(msg) => console.log('msg:', msg));
@@ -63,13 +65,8 @@ bot.onText( /\/GRobot (iniciar!)/, function(msg){
 //#endregion
 
 
-//adicionado saida HTML para a aplicação
-appExp.get('/', function(req, res) {
-  return res.send('<br><i>Server ON!</i>');
-});
-
 //Apos a conexao sucess! print mensagem OK
-appExp.listen(port, () => {
+app.listen(port, () => {
   console.log(`Serve ON in port: ${port}!`);
 });
 
