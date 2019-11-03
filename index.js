@@ -5,10 +5,11 @@
 
 const TelegramBot = require('node-telegram-bot-api');
 const express = require('express');
-
+const five = require('johnny-five');
+const firebase = require('firebase');
 //#endregion
 
-//#region Variaveis Globais
+//#region Variaveis Globais Bot
 
 const appExp = express();
 /*Definindo uma porta padrao para utilizar caso essa porta
@@ -45,7 +46,7 @@ bot.onText( /\/echo (.*)/, function( msg, match ){
 
 //#region Comand GRobot Iniciar
 
-//GRobot "Iniciar"
+
 bot.onText( /\/GRobot (Iniciar!)/, function(msg){
   
   var fromId = msg.chat.id;
@@ -60,6 +61,7 @@ bot.onText( /\/GRobot (iniciar!)/, function(msg){
   bot.sendMessage(fromId, resp);
   
 });
+
 //#endregion
 
 
@@ -67,6 +69,36 @@ bot.onText( /\/GRobot (iniciar!)/, function(msg){
 appExp.get('/', function(req, res) {
   res.send('<br><i>Server ON!</i>');
 });
+
+
+
+//#region ARDUINO
+
+var board = new five.Board();
+
+board.on("ready", function(){
+
+  //#region Instancias Ports
+  
+  var rele = new five.Relay(8);
+
+  //#endregion
+
+  
+  this.repl.inject({
+    rele : rele
+
+  });
+
+  let lampada = false;
+  
+
+
+});
+
+//#endregion
+
+
 
 //Apos a conexao sucess! print mensagem OK
 appExp.listen(port, () => {
