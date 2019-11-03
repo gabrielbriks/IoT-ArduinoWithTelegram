@@ -73,47 +73,112 @@ bot.onText( /\/GRobot (iniciar!)/, function(msg){
 
 //#endregion
 
-//#region Comand GRobot Lampada
+//#region Comand GRobot Lampada ON
 
+function ligarLampada(message){
+
+  var fromId = message.chat.id;
+  var resp = "Lâmpada ligada!";
+  var err = "Opa! Nos desculpe, no momento não foi possivel realizar essa ação!"+
+  "Por favor, verifique sua conexão com a internet.";
+  
+  db.ref('lampada').set('on');
+
+  db.ref('lampada').on('value', function(snapshot){
+
+    let lampada = snapshot.val();
+
+    if(lampada == 'on'){
+     return result =  bot.sendMessage(fromId, resp);
+    }else{
+      return result = bot.sendMessage(fromId, err);
+    }
+
+  }); 
+
+ 
+}
 
 bot.onText( /\/GRobot (Ligar lampada!)/, function(msg){
   
-  var fromId = msg.chat.id;
-  var resp = "Lâmpada ligada!";
-  bot.sendMessage(fromId, resp);
-  
+  return ligarLampada(msg);
+
 });
 
 bot.onText( /\/GRobot (ligar lampada!)/, function(msg){
   
-  var fromId = msg.chat.id;
-  var resp = "Lâmpada ligada!";
-  bot.sendMessage(fromId, resp);
+  return ligarLampada(msg);
   
 });
 
-/// Com Acento ///
+// /// Com Acento ///
 bot.onText( /\/GRobot (Ligar lâmpada!)/, function(msg){
   
-  var fromId = msg.chat.id;
-  var resp = "Lâmpada ligada!";
-
-
-
-
-  bot.sendMessage(fromId, resp);
+  return ligarLampada(msg);
   
 });
 
 bot.onText( /\/GRobot (ligar lâmpada!)/, function(msg){
   
-  var fromId = msg.chat.id;
-  var resp = "Lâmpada ligada!";
-  bot.sendMessage(fromId, resp);
+  return ligarLampada(msg);
   
 });
 
 //#endregion
+
+//#region Comand GRobot Lampada OFF
+
+function desligarLampada(message){
+
+  var fromId = message.chat.id;
+  var resp = "Lâmpada desligada!";
+  var err = "Opa! Nos desculpe, no momento não foi possivel realizar essa ação!"+
+  "Por favor, verifique sua conexão com a internet.";
+  
+  db.ref('lampada').set('off');
+
+  db.ref('lampada').on('value', function(snapshot){
+
+    let lampada = snapshot.val();
+
+    if(lampada == 'off'){
+     return result =  bot.sendMessage(fromId, resp);
+    }else{
+      return result = bot.sendMessage(fromId, err);
+    }
+
+  }); 
+
+ 
+}
+
+bot.onText( /\/GRobot (Desligar lampada!)/, function(msg){
+  
+  return desligarLampada(msg);
+
+});
+
+bot.onText( /\/GRobot (desligar lampada!)/, function(msg){
+  
+  return desligarLampada(msg);
+
+});
+
+//Com acento//
+bot.onText( /\/GRobot (Desligar lâmpada!)/, function(msg){
+  
+  return desligarLampada(msg);
+
+});
+
+bot.onText( /\/GRobot (desligar lâmpada!)/, function(msg){
+  
+  return desligarLampada(msg);
+
+});
+
+//#endregion
+
 
 
 //Apos a conexao sucess! print mensagem OK
@@ -121,17 +186,6 @@ app.listen(port, () => {
   console.log(`Serve ON in port: ${port}!`);
 });
 
-/* ?? TRATAMENTOS DE ERROS ??  */
 
-// bot.sendMessage()
-// const logErrorEcho = ( msg ) => ( err ) => 
-//   console.log( msg, err )
-// const logSuccessEcho = ( msg, match ) => ( data ) => 
-//   console.log( `Success: `, data )
-// const sendEcho = ( msg, match ) => 
-//   bot.sendMessage( msg.chat.id, match[ 1 ] )
-//       .then( logSuccessEcho( msg, match ) )
-//       .catch( logErrorEcho( `Error: ` ) )
-// bot.onText( /\/echo (.*)/, sendEcho )
 
 
