@@ -3,16 +3,8 @@ require('dotenv').config();
 
 const TelegramBot = require('node-telegram-bot-api');
 const express = require('express');
-<<<<<<< HEAD:src/index.js
 
 const app = express();
-=======
-const five = require('johnny-five');
-const firebase = require('firebase');
-//#endregion
-
-//#region Variaveis Globais Bot
->>>>>>> iot-telegram:index.js
 
 /*Definindo uma porta padrao para utilizar caso essa porta
 * estabelecida pelo servidor ou maquina onde se encontra em funcionamento
@@ -66,44 +58,6 @@ bot.onText( /\/GRobot (iniciar!)/, function(msg){
 //#endregion
 
 
-<<<<<<< HEAD:src/index.js
-=======
-//adicionado saida HTML para a aplicação
-appExp.get('/', function(req, res) {
-  res.send('<br><i>Server ON!</i>');
-});
-
-
-
-//#region ARDUINO
-
-var board = new five.Board();
-
-board.on("ready", function(){
-
-  //#region Instancias Ports
-  
-  var rele = new five.Relay(8);
-
-  //#endregion
-
-  
-  this.repl.inject({
-    rele : rele
-
-  });
-
-  let lampada = false;
-  
-
-
-});
-
-//#endregion
-
-
-
->>>>>>> iot-telegram:index.js
 //Apos a conexao sucess! print mensagem OK
 app.listen(port, () => {
   console.log(`Serve ON in port: ${port}!`);
