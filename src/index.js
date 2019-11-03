@@ -3,8 +3,24 @@ require('dotenv').config();
 
 const TelegramBot = require('node-telegram-bot-api');
 const express = require('express');
+const firebase = require("firebase");
 
 const app = express();
+
+var firebaseConfig = {
+  apiKey: process.env.API_KEY,
+  authDomain: process.env.AUTH_DOMAIN,
+  databaseURL: process.env.DATABASE_URL,
+  projectId: process.env.PROJECT_ID,
+  storageBucket: process.env.STORAGE_BUKCKET,
+  messagingSenderId: process.env.MESSAGING_SENDER_ID,
+  appID: process.env.APP_ID,
+
+};
+
+firebase.initializeApp(firebaseConfig);
+var db = firebase.database();
+
 
 /*Definindo uma porta padrao para utilizar caso essa porta
 * estabelecida pelo servidor ou maquina onde se encontra em funcionamento
@@ -51,6 +67,48 @@ bot.onText( /\/GRobot (iniciar!)/, function(msg){
   
   var fromId = msg.chat.id;
   var resp = "Opa, estou Ligado!";
+  bot.sendMessage(fromId, resp);
+  
+});
+
+//#endregion
+
+//#region Comand GRobot Lampada
+
+
+bot.onText( /\/GRobot (Ligar lampada!)/, function(msg){
+  
+  var fromId = msg.chat.id;
+  var resp = "Lâmpada ligada!";
+  bot.sendMessage(fromId, resp);
+  
+});
+
+bot.onText( /\/GRobot (ligar lampada!)/, function(msg){
+  
+  var fromId = msg.chat.id;
+  var resp = "Lâmpada ligada!";
+  bot.sendMessage(fromId, resp);
+  
+});
+
+/// Com Acento ///
+bot.onText( /\/GRobot (Ligar lâmpada!)/, function(msg){
+  
+  var fromId = msg.chat.id;
+  var resp = "Lâmpada ligada!";
+
+
+
+
+  bot.sendMessage(fromId, resp);
+  
+});
+
+bot.onText( /\/GRobot (ligar lâmpada!)/, function(msg){
+  
+  var fromId = msg.chat.id;
+  var resp = "Lâmpada ligada!";
   bot.sendMessage(fromId, resp);
   
 });
