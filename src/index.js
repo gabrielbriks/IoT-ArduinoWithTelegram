@@ -65,7 +65,7 @@ bot.onText( /\/GRobot (iniciar!)/, function(msg){
 
 //adicionado saida HTML para a aplicação
 appExp.get('/', function(req, res) {
-  res.send('<br><i>Server ON!</i>');
+  return res.send('<br><i>Server ON!</i>');
 });
 
 //Apos a conexao sucess! print mensagem OK
