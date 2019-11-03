@@ -1,28 +1,20 @@
-
-//#region Intancias de APIs
-
-//instanciando a APIs 
+//Esse cara lê as cariaveis de ambiente dentro do nosso .env
+require('dotenv').config();
 
 const TelegramBot = require('node-telegram-bot-api');
 const express = require('express');
 
-//#endregion
-
-//#region Variaveis Globais
-
 const app = express();
+
 /*Definindo uma porta padrao para utilizar caso essa porta
 * estabelecida pelo servidor ou maquina onde se encontra em funcionamento
 */
 const port = process.env.PORT || 3000;
 
-//token Telegram que você recebe do @BotFather 
-const token = '899326021:AAEIY-qEA_ueqPUAHwNg1GBrbvv23m3TPI4';
 
 // Crie um bot que use 'polling' para buscar novas atualizações 
-const bot = new TelegramBot(token, {polling :  true });
+const bot = new TelegramBot(process.env.TOKEN_BOT_TELEGRAM, {polling :  true });
 
-//#endregion
 
 app.use(require('./routes'));
 
