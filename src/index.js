@@ -5,8 +5,8 @@ const TelegramBot = require('node-telegram-bot-api');
 const express = require('express');
 const firebase = require("firebase");
 
-const five = require('johnny-five');
-const board = new five.Board({port:'COM3'});
+// const five = require('johnny-five');
+// const board = new five.Board({port:'COM3'});
 
 const app = express();
 
@@ -193,31 +193,31 @@ bot.onText( /\/GRobot (desligar lâmpada!)/, function(msg){
 
 //#region ARDUINO
 
-  board.on('ready', function(){
+  // board.on('ready', function(){
 
-    var ledRed = new five.Led(12);
+  //   var ledRed = new five.Led(12);
 
-    this.repl.inject({
-      ledRed : ledRed
-    });
+  //   this.repl.inject({
+  //     ledRed : ledRed
+  //   });
 
-    db.ref('lampada').on('value', function(snapshot){
+  //   db.ref('lampada').on('value', function(snapshot){
 
-      let lampada = snapshot.val();
+  //     let lampada = snapshot.val();
      
-      if(lampada == 'on'){
+  //     if(lampada == 'on'){
        
-        ledRed.on(); 
-      }
-      else{
+  //       ledRed.on(); 
+  //     }
+  //     else{
   
-        ledRed.off();
-      }
+  //       ledRed.off();
+  //     }
       
   
-    }); 
+  //   }); 
 
-  });
+  // });
 
 
 //#endregion
