@@ -5,6 +5,9 @@ const TelegramBot = require('node-telegram-bot-api');
 const express = require('express');
 const firebase = require("firebase");
 
+const five = require('johnny-five');
+const board = new five.Board({port:'COM3'});
+
 const app = express();
 
 var firebaseConfig = {
@@ -89,10 +92,14 @@ function ligarLampada(message){
     let lampada = snapshot.val();
 
     if(lampada == 'on'){
-     return result =  bot.sendMessage(fromId, resp);
-    }else{
+     
+      return result =  bot.sendMessage(fromId, resp);
+    }
+    else if(lampada != 'on' && lampada != 'off'){
+
       return result = bot.sendMessage(fromId, err);
     }
+    
 
   }); 
 
@@ -142,8 +149,11 @@ function desligarLampada(message){
     let lampada = snapshot.val();
 
     if(lampada == 'off'){
+
      return result =  bot.sendMessage(fromId, resp);
-    }else{
+    }
+    else if(lampada != 'on' && lampada != 'off'){
+
       return result = bot.sendMessage(fromId, err);
     }
 
@@ -178,6 +188,41 @@ bot.onText( /\/GRobot (desligar lâmpada!)/, function(msg){
 });
 
 //#endregion
+
+
+
+//#region ARDUINO
+
+  board.on('ready', function(){
+
+    var ledRed = new five.Led(12);
+
+    this.repl.inject({
+      ledRed : ledRed
+    });
+
+    db.ref('lampada').on('value', function(snapshot){
+
+      let lampada = snapshot.val();
+     
+      if(lampada == 'on'){
+       
+        ledRed.on(); 
+      }
+      else{
+  
+        ledRed.off();
+      }
+      
+  
+    }); 
+
+  });
+
+
+//#endregion
+
+
 
 
 
