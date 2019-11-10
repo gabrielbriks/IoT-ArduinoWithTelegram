@@ -5,8 +5,8 @@ const TelegramBot = require('node-telegram-bot-api');
 const express = require('express');
 const firebase = require("firebase");
 
-// const five = require('johnny-five');
-// const board = new five.Board({port:'COM3'});
+const five = require('johnny-five');
+const board = new five.Board({port:'COM3'});
 
 const app = express();
 
@@ -189,35 +189,155 @@ bot.onText( /\/GRobot (desligar lâmpada!)/, function(msg){
 
 //#endregion
 
+//#region  Comand GRobot Portao
 
+  function abrirPortao(message){
+    
+    var fromId = message.chat.id;
+    var resp = "Abrindo Portão...";
+    var err = "Opa! Nos desculpe, no momento não foi possivel realizar essa ação!"+
+    "Por favor, verifique sua conexão com a internet.";
+    
+    db.ref('portao').set('open');
+  
+    db.ref('portao').on('value', function(snapshot){
+  
+      let portao = snapshot.val();
+  
+      if(portao == 'open'){
+       
+        return result =  bot.sendMessage(fromId, resp);
+      }
+      else if(portao != 'open' && portao != 'close'){
+  
+        return result = bot.sendMessage(fromId, err);
+      }
+      
+  
+    }); 
+  
+  }
+
+  bot.onText( /\/GRobot (Abrir portao!)/, function(msg){
+
+    return abrirPortao(msg);
+  });
+  bot.onText( /\/GRobot (abrir portao!)/, function(msg){
+
+    return abrirPortao(msg);
+  });
+  bot.onText( /\/GRobot (Abrir portão!)/, function(msg){
+
+    return abrirPortao(msg);
+  });
+  bot.onText( /\/GRobot (abrir portão!)/, function(msg){
+
+    return abrirPortao(msg);
+  });
+
+
+  function fecharPortao(message){
+    
+    var fromId = message.chat.id;
+    var resp = "Fechando Portão...";
+    var err = "Opa! Nos desculpe, no momento não foi possivel realizar essa ação!"+
+    "Por favor, verifique sua conexão com a internet.";
+    
+    db.ref('portao').set('close');
+  
+    db.ref('portao').on('value', function(snapshot){
+  
+      let portao = snapshot.val();
+  
+      if(portao == 'close'){
+       
+        return result =  bot.sendMessage(fromId, resp);
+      }
+      else if(portao != 'open' && portao != 'close'){
+  
+        return result = bot.sendMessage(fromId, err);
+      }
+      
+  
+    }); 
+  
+  }
+
+  bot.onText( /\/GRobot (Fechar portao!)/, function(msg){
+
+    return fecharPortao(msg);
+  });
+  bot.onText( /\/GRobot (fechar portao!)/, function(msg){
+
+    return fecharPortao(msg);
+  });
+  bot.onText( /\/GRobot (Fechar portão!)/, function(msg){
+
+    return fecharPortao(msg);
+  });
+  bot.onText( /\/GRobot (fechar portão!)/, function(msg){
+
+    return fecharPortao(msg);
+  });
+
+//#endregion
 
 //#region ARDUINO
 
-  // board.on('ready', function(){
+  board.on('ready', function(){
+    var lamp = new five.Led(8)
+    var ledRed = new five.Led(12);
 
-  //   var ledRed = new five.Led(12);
+   var servo = new five.Servo({
+      // id: "MyServo",     // User defined id
+      pin: 10,           // Which pin is it attached to?
+       type: "continuous",  // Default: "standard". Use "continuous" for continuous rotation servos
+       range: [0,180],    // Default: 0-180
+      // fps: 100,          // Used to calculate rate of movement between positions
+      // invert: false,     // Invert all specified positions
+       startAt: 90,       // Immediately move to a degree
+      center: false,      // overrides startAt if true and moves the servo to the center of the range
+    });
 
-  //   this.repl.inject({
-  //     ledRed : ledRed
-  //   });
+    this.repl.inject({
+      //ledRed : ledRed,
+      lamp : lamp,
+      servo : servo
+    });
 
-  //   db.ref('lampada').on('value', function(snapshot){
+    db.ref('lampada').on('value', function(snapshot){
 
-  //     let lampada = snapshot.val();
+      let lampada = snapshot.val();
      
-  //     if(lampada == 'on'){
+      if(lampada == 'on'){
        
-  //       ledRed.on(); 
-  //     }
-  //     else{
+        lamp.on(); 
+      }
+      else{
   
-  //       ledRed.off();
-  //     }
+        lamp.off();
+      }
       
   
-  //   }); 
+    }); 
 
-  // });
+
+    db.ref('portao').on('value', function(snapshot){
+
+      let portao = snapshot.val();
+
+      if(portao == 'open'){
+        //servo.cw(2);
+        servo.max();
+       
+      }else{
+
+        servo.min();
+      }
+    });
+
+
+  });
 
 
 //#endregion
