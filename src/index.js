@@ -5,6 +5,9 @@ const TelegramBot = require('node-telegram-bot-api');
 const express = require('express');
 const firebase = require("firebase");
 
+const five = require('johnny-five');
+const board = new five.Board({port:'COM3'});
+
 const app = express();
 
 var firebaseConfig = {
@@ -73,47 +76,274 @@ bot.onText( /\/GRobot (iniciar!)/, function(msg){
 
 //#endregion
 
-//#region Comand GRobot Lampada
+//#region Comand GRobot Lampada ON
 
+function ligarLampada(message){
+
+  var fromId = message.chat.id;
+  var resp = "Lâmpada ligada!";
+  var err = "Opa! Nos desculpe, no momento não foi possivel realizar essa ação!"+
+  "Por favor, verifique sua conexão com a internet.";
+  
+  db.ref('lampada').set('on');
+
+  db.ref('lampada').on('value', function(snapshot){
+
+    let lampada = snapshot.val();
+
+    if(lampada == 'on'){
+     
+      return result =  bot.sendMessage(fromId, resp);
+    }
+    else if(lampada != 'on' && lampada != 'off'){
+
+      return result = bot.sendMessage(fromId, err);
+    }
+    
+
+  }); 
+
+ 
+}
 
 bot.onText( /\/GRobot (Ligar lampada!)/, function(msg){
   
-  var fromId = msg.chat.id;
-  var resp = "Lâmpada ligada!";
-  bot.sendMessage(fromId, resp);
-  
+  return ligarLampada(msg);
+
 });
 
 bot.onText( /\/GRobot (ligar lampada!)/, function(msg){
   
-  var fromId = msg.chat.id;
-  var resp = "Lâmpada ligada!";
-  bot.sendMessage(fromId, resp);
+  return ligarLampada(msg);
   
 });
 
-/// Com Acento ///
+// /// Com Acento ///
 bot.onText( /\/GRobot (Ligar lâmpada!)/, function(msg){
   
-  var fromId = msg.chat.id;
-  var resp = "Lâmpada ligada!";
-
-
-
-
-  bot.sendMessage(fromId, resp);
+  return ligarLampada(msg);
   
 });
 
 bot.onText( /\/GRobot (ligar lâmpada!)/, function(msg){
   
-  var fromId = msg.chat.id;
-  var resp = "Lâmpada ligada!";
-  bot.sendMessage(fromId, resp);
+  return ligarLampada(msg);
   
 });
 
 //#endregion
+
+//#region Comand GRobot Lampada OFF
+
+function desligarLampada(message){
+
+  var fromId = message.chat.id;
+  var resp = "Lâmpada desligada!";
+  var err = "Opa! Nos desculpe, no momento não foi possivel realizar essa ação!"+
+  "Por favor, verifique sua conexão com a internet.";
+  
+  db.ref('lampada').set('off');
+
+  db.ref('lampada').on('value', function(snapshot){
+
+    let lampada = snapshot.val();
+
+    if(lampada == 'off'){
+
+     return result =  bot.sendMessage(fromId, resp);
+    }
+    else if(lampada != 'on' && lampada != 'off'){
+
+      return result = bot.sendMessage(fromId, err);
+    }
+
+  }); 
+
+ 
+}
+
+bot.onText( /\/GRobot (Desligar lampada!)/, function(msg){
+  
+  return desligarLampada(msg);
+
+});
+
+bot.onText( /\/GRobot (desligar lampada!)/, function(msg){
+  
+  return desligarLampada(msg);
+
+});
+
+//Com acento//
+bot.onText( /\/GRobot (Desligar lâmpada!)/, function(msg){
+  
+  return desligarLampada(msg);
+
+});
+
+bot.onText( /\/GRobot (desligar lâmpada!)/, function(msg){
+  
+  return desligarLampada(msg);
+
+});
+
+//#endregion
+
+//#region  Comand GRobot Portao
+
+  function abrirPortao(message){
+    
+    var fromId = message.chat.id;
+    var resp = "Abrindo Portão...";
+    var err = "Opa! Nos desculpe, no momento não foi possivel realizar essa ação!"+
+    "Por favor, verifique sua conexão com a internet.";
+    
+    db.ref('portao').set('open');
+  
+    db.ref('portao').on('value', function(snapshot){
+  
+      let portao = snapshot.val();
+  
+      if(portao == 'open'){
+       
+        return result =  bot.sendMessage(fromId, resp);
+      }
+      else if(portao != 'open' && portao != 'close'){
+  
+        return result = bot.sendMessage(fromId, err);
+      }
+      
+  
+    }); 
+  
+  }
+
+  bot.onText( /\/GRobot (Abrir portao!)/, function(msg){
+
+    return abrirPortao(msg);
+  });
+  bot.onText( /\/GRobot (abrir portao!)/, function(msg){
+
+    return abrirPortao(msg);
+  });
+  bot.onText( /\/GRobot (Abrir portão!)/, function(msg){
+
+    return abrirPortao(msg);
+  });
+  bot.onText( /\/GRobot (abrir portão!)/, function(msg){
+
+    return abrirPortao(msg);
+  });
+
+
+  function fecharPortao(message){
+    
+    var fromId = message.chat.id;
+    var resp = "Fechando Portão...";
+    var err = "Opa! Nos desculpe, no momento não foi possivel realizar essa ação!"+
+    "Por favor, verifique sua conexão com a internet.";
+    
+    db.ref('portao').set('close');
+  
+    db.ref('portao').on('value', function(snapshot){
+  
+      let portao = snapshot.val();
+  
+      if(portao == 'close'){
+       
+        return result =  bot.sendMessage(fromId, resp);
+      }
+      else if(portao != 'open' && portao != 'close'){
+  
+        return result = bot.sendMessage(fromId, err);
+      }
+      
+  
+    }); 
+  
+  }
+
+  bot.onText( /\/GRobot (Fechar portao!)/, function(msg){
+
+    return fecharPortao(msg);
+  });
+  bot.onText( /\/GRobot (fechar portao!)/, function(msg){
+
+    return fecharPortao(msg);
+  });
+  bot.onText( /\/GRobot (Fechar portão!)/, function(msg){
+
+    return fecharPortao(msg);
+  });
+  bot.onText( /\/GRobot (fechar portão!)/, function(msg){
+
+    return fecharPortao(msg);
+  });
+
+//#endregion
+
+//#region ARDUINO
+
+  board.on('ready', function(){
+    var lamp = new five.Led(8)
+    var ledRed = new five.Led(12);
+
+   var servo = new five.Servo({
+      // id: "MyServo",     // User defined id
+      pin: 10,           // Which pin is it attached to?
+       type: "continuous",  // Default: "standard". Use "continuous" for continuous rotation servos
+       range: [0,180],    // Default: 0-180
+      // fps: 100,          // Used to calculate rate of movement between positions
+      // invert: false,     // Invert all specified positions
+       startAt: 90,       // Immediately move to a degree
+      center: false,      // overrides startAt if true and moves the servo to the center of the range
+    });
+
+    this.repl.inject({
+      //ledRed : ledRed,
+      lamp : lamp,
+      servo : servo
+    });
+
+    db.ref('lampada').on('value', function(snapshot){
+
+      let lampada = snapshot.val();
+     
+      if(lampada == 'on'){
+       
+        lamp.on(); 
+      }
+      else{
+  
+        lamp.off();
+      }
+      
+  
+    }); 
+
+
+    db.ref('portao').on('value', function(snapshot){
+
+      let portao = snapshot.val();
+
+      if(portao == 'open'){
+        //servo.cw(2);
+        servo.max();
+       
+      }else{
+
+        servo.min();
+      }
+    });
+
+
+  });
+
+
+//#endregion
+
+
+
 
 
 //Apos a conexao sucess! print mensagem OK
@@ -121,17 +351,6 @@ app.listen(port, () => {
   console.log(`Serve ON in port: ${port}!`);
 });
 
-/* ?? TRATAMENTOS DE ERROS ??  */
 
-// bot.sendMessage()
-// const logErrorEcho = ( msg ) => ( err ) => 
-//   console.log( msg, err )
-// const logSuccessEcho = ( msg, match ) => ( data ) => 
-//   console.log( `Success: `, data )
-// const sendEcho = ( msg, match ) => 
-//   bot.sendMessage( msg.chat.id, match[ 1 ] )
-//       .then( logSuccessEcho( msg, match ) )
-//       .catch( logErrorEcho( `Error: ` ) )
-// bot.onText( /\/echo (.*)/, sendEcho )
 
 
