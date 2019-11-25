@@ -2,7 +2,7 @@
 
 
 
-Projeto IoT básico desenvolvido em JavaScript, onde foi introduzido ao um protótipo de uma casa, para ligar uma lâmpada e controlar um servo motor(simulando o portão). 
+Meu primeiro projeto IoT básico desenvolvido em JavaScript, onde foi introduzido ao um protótipo de uma casa, para ligar uma lâmpada e controlar um servo motor(simulando o portão). 
 
 **Componentes utilizados**
  - Arduíno Nano
